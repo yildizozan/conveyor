@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  broker:
+    container_name: broker
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_ERLANG_COOKIE: SuperSecret
+      #RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      #RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  collector:
+    container_name: collector
+    image: yildizozan/conveyer-collector:latest
+    restart: on-failure
+    ports:
+      - 50051:50051
+    environment:
+      EVENT_QUEUE_CONN_STR: "amqp://guest:guest@broker:5672/"
+      GRPC_CONN_STR: "0.0.0.0:50051"
+    depends_on:
+      - broker
+
+  emitter:
+    container_name: emitter
+    image: yildizozan/conveyer-emitter:latest
+    restart: on-failure
+    ports:
+      - 3000:3000
+    environment:
+      BROKER_CONN: "amqp://guest:guest@broker:5672"
+    depends_on:
+      - broker
+
+  sensor:
+    container_name: sensor
+    image: yildizozan/conveyer-sensor:latest
+    restart: on-failure
+    environment:
+      GRPC_SERVER: "collector:50051"
+    depends_on:
+      - broker
+      - collector
+

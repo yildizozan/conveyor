@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package conveyor;
+
+import "github.com/yildizozan/conveyor/pkg/proto/conveyor/document.proto";
+
+option go_package = "github.com/yildizozan/conveyor/v1beta;conveyor";
+
+service ConveyorService {
+  rpc CreateData (Document) returns (Status) {
+  }
+}
+
+enum Corpus {
+  UNIVERSAL = 0;
+  WEB = 1;
+  IMAGES = 2;
+  LOCAL = 3;
+  NEWS = 4;
+  PRODUCTS = 5;
+  VIDEO = 6;
+}
+
+message Entry {
+}
+
+message Position {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+message Point {
+  int32 latitude = 1;
+  int32 longitude = 2;
+}
+
+message String {
+  string data = 1;
+}
+
+message Integer {
+  int64 data = 1;
+}
+
+message Status {
+  bool success = 1;
+  uint32 code = 2;
+  string message = 3;
+}
+
+message Document {
+  map<string, string> fields = 1;
+}
