@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package conveyor.v1beta1;
 
-import "github.com/yildizozan/conveyor/v1beta1";
+import "github.com/yildizozan/conveyor/v1beta1/document.proto";
 
 option go_package = "github.com/yildizozan/conveyor/v1beta;conveyor";
 

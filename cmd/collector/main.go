@@ -2,9 +2,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/streadway/amqp"
-	"github.com/yildizozan/conveyor/cmd/model"
+	_ "github.com/yildizozan/conveyor/cmd/model"
 	pb "github.com/yildizozan/conveyor/v1beta1"
 	"google.golang.org/grpc"
 	"log"
@@ -26,14 +27,14 @@ type service struct {
 	pb.UnimplementedConveyorServiceServer
 }
 
-func (s *service) CreateData(ctx context.Context, proto *pb.Data) (*pb.Status, error) {
+func (s *service) CreateData(ctx context.Context, proto *pb.Document) (*pb.Status, error) {
 
-	m := pb.Point{
-		Latitude:  2.2,
-		Longitude: 2.2,
+	m := &pb.Point{
+		Latitude:  22,
+		Longitude: 22,
 	}
 
-	json, err := m.MarshallJSON()
+	jsonBytes, err := json.Marshal(m)
 	if err != nil {
 		log.Fatalf("%s: %s\n", "MarshallJSON", err)
 	}
@@ -45,7 +46,7 @@ func (s *service) CreateData(ctx context.Context, proto *pb.Data) (*pb.Status, e
 		false,    // immediate
 		amqp.Publishing{
 			ContentType: "application/json",
-			Body:        json,
+			Body:        jsonBytes,
 		})
 	if err != nil {
 		log.Fatalf("%s: %s\n", "Failed to publish a message", err)
@@ -55,7 +56,6 @@ func (s *service) CreateData(ctx context.Context, proto *pb.Data) (*pb.Status, e
 		Success: false,
 		Code:    0,
 		Message: "selam",
-		Details: nil,
 	}, nil
 }
 
