@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/streadway/amqp"
 	"github.com/yildizozan/conveyor/cmd/model"
-	pb "github.com/yildizozan/conveyor/pkg/proto/conveyor"
+	pb "github.com/yildizozan/conveyor/v1beta1"
 	"google.golang.org/grpc"
 	"log"
 	"net"

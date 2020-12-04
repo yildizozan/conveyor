@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package conveyor;
+package conveyor.v1beta1;
 
-import "github.com/yildizozan/conveyor/pkg/proto/conveyor/document.proto";
+import "github.com/yildizozan/conveyor/v1beta1";
 
 option go_package = "github.com/yildizozan/conveyor/v1beta;conveyor";
 

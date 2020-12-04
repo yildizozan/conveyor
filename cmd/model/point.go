@@ -2,7 +2,7 @@ package model
 
 import (
 	"encoding/json"
-	pb "github.com/yildizozan/conveyor/pkg/proto/conveyor"
+	pb "github.com/yildizozan/conveyor/v1beta1"
 )
 
 func NewPoint(latitude float32, longitude float32) *pb.Point {
